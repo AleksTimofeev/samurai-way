@@ -1,0 +1,6 @@
+.wrapper {
+  grid-area: navbar;
+  display: flex;
+  flex-direction: column;
+  background: #ffb793;
+}

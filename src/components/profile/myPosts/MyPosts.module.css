@@ -1,0 +1,7 @@
+.wrapper {
+  color: green;
+}
+.posts {
+  display: flex;
+  flex-direction: column;
+}
