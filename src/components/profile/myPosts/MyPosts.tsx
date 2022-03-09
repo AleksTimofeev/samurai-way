@@ -5,12 +5,13 @@ import styles from './MyPosts.module.css'
 const MyPosts = () => {
 
   const [dataPosts, setDataPosts] = useState([
-    'hello )))', 'My first post'
+    {message: 'hello )))', likesCount: 3},
+    {message: 'My first post', likesCount: 5},
   ])
   const [postMessage, setPostMessage] = useState('')
 
   const handleAddPost = () => {
-    setDataPosts([...dataPosts, postMessage])
+    setDataPosts([...dataPosts, {message: postMessage, likesCount: 0}])
     setPostMessage('')
   }
   const handleChange = (e: any) => {
@@ -24,7 +25,7 @@ const MyPosts = () => {
       <button onClick={handleAddPost}>Add post</button>
       <div className={styles.posts}>
         {dataPosts.map((item, index) => (
-          <Post message={item} key={index}/>
+          <Post message={item.message} likes={item.likesCount} key={index}/>
         ))}
       </div>
     </div>

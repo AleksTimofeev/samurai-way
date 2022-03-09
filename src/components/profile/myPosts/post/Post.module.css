@@ -2,7 +2,15 @@
   display: flex;
   align-items: center;
 }
-.wrapper img {
+.avatar {
   width: 50px;
   border-radius: 50%;
+}
+.message {
+  font-size: 1.5rem;
+  margin-right: 20px;
+}
+.likeIcon {
+  width: 30px;
+  height: 30px;
 }
