@@ -1,24 +1,29 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './Dialogs.module.css'
 import Dialog from "./dialog/Dialog";
 import Message from "./message/Message";
+import {DialogType, MessageType} from "../redux/state";
 
-const Dialogs = () => {
+
+type PropsType = {
+  data: {
+    dialogs: Array<DialogType>
+    message: Array<MessageType>
+  }
+}
+
+const Dialogs:React.FC<PropsType> = ({data}) => {
+  let [dialogs, setDialogs] = useState<Array<DialogType>>(data.dialogs)
+  let [message, setMessage] = useState<Array<MessageType>>(data.message)
   return (
     <div>
       <h2>Dialogs</h2>
       <div className={styles.dialogs}>
         <div className={styles.dialogsItem}>
-          <Dialog name={'Alex'} id={'1'} />
-          <Dialog name={'Sophia'} id={'2'} />
-          <Dialog name={'Olga'} id={'3'} />
-          <Dialog name={'Max'} id={'4'} />
-          <Dialog name={'Vavan'} id={'5'} />
+          {dialogs.map((item, i) => <Dialog key={i} name={item.name} id={item.id}/>)}
         </div>
         <div className={styles.dialogsItem}>
-          <Message message={'Hello)))'} />
-          <Message message={'How are you?'} />
-          <Message message={'By!!!'} />
+          {message.map((item, i) => <Message key={i} message={item.message} id={item.id}  />)}
         </div>
       </div>
     </div>

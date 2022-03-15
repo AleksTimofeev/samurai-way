@@ -4,22 +4,25 @@ import styles from './App.module.css'
 import Header from "./components/header/Header";
 import Navbar from "./components/navbar/Navbar";
 import Profile from "./components/profile/Profile";
-import Message from "./components/message/Message";
 import HomePage from "./components/homePage/HomePage";
 import Dialogs from "./components/dialogs/Dialogs";
+import state from "./components/redux/state";
+import dialogs from "./components/dialogs/Dialogs";
 
-function App() {
+function App(){
+
+  let profileData = state.profilePage
+  let dialogsData = state.dialogsPage
+
   return (
     <div className={styles.app}>
-      <Header/>
-
       <Router>
+        <Header/>
         <Navbar/>
         <Switch>
-          <Route path={'/'} exact component={HomePage} />
-          <Route path={'/profile'} component={Profile} />
-          <Route path={'/message'} component={Message} />
-          <Route path={'/dialogs'} component={Dialogs} />
+          <Route path={'/'} exact render={() => <HomePage />}/>
+          <Route path={'/profile'} render={() => <Profile data={profileData}/>}/>
+          <Route path={'/dialogs'} render={() => <Dialogs data={dialogsData} />}/>
         </Switch>
       </Router>
     </div>

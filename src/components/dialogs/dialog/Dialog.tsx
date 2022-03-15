@@ -1,13 +1,10 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
 import styles from "../Dialogs.module.css";
+import {DialogType} from "../../redux/state";
 
-type PropsType = {
-  name: string,
-  id: string
-}
 
-const Dialog: React.FC<PropsType> = ({name, id}) => {
+const Dialog: React.FC<DialogType> = ({name, id}) => {
   return (
     <>
       <div className={styles.dialog}>

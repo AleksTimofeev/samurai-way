@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
 import Post from "./post/Post";
 import styles from './MyPosts.module.css'
+import {PostsType} from "../../redux/state";
 
-const MyPosts = () => {
+type PropsType = {
+  data: Array<PostsType>
+}
 
-  const [dataPosts, setDataPosts] = useState([
-    {message: 'hello )))', likesCount: 3},
-    {message: 'My first post', likesCount: 5},
-  ])
+const MyPosts: React.FC<PropsType> = ({data}) => {
+
+  const [dataPosts, setDataPosts] = useState(data)
   const [postMessage, setPostMessage] = useState('')
 
   const handleAddPost = () => {

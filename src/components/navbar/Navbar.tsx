@@ -14,9 +14,6 @@ const Navbar = () => {
           <NavLink activeClassName={styles.activeLink} to={'/profile'} >Profile</NavLink>
         </li>
         <li>
-          <NavLink activeClassName={styles.activeLink} to={'/message'}>Message</NavLink>
-        </li>
-        <li>
           <NavLink activeClassName={styles.activeLink} to={'/dialogs'}>Dialogs</NavLink>
         </li>
         <li>News</li>
