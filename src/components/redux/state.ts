@@ -1,4 +1,5 @@
 import {v1} from "uuid";
+import Render from "../../Render";
 
 
 export type DialogType = {
@@ -9,22 +10,26 @@ export type MessageType = {
   id: string
   message: string
 }
-export type PostsType = {
+export type DialogsPageType = {
+  dialogs: Array<DialogType>
+  message: Array<MessageType>
+}
+export type PostType = {
+  id: string
   message: string
   likesCount: number
 }
+export type ProfilePageType = {
+  inputPostMessage: string
+  posts: Array<PostType>
+}
 export type StateType = {
-  dialogsPage: {
-    dialogs: Array<DialogType>
-    message: Array<MessageType>
-  }
-  profilePage: {
-    posts: Array<PostsType>
-  }
+  dialogsPage: DialogsPageType
+  profilePage: ProfilePageType
 }
 
 let state: StateType = {
-  dialogsPage:{
+  dialogsPage: {
     dialogs: [
       {id: v1(), name: 'Alex'},
       {id: v1(), name: 'Sophia'},
@@ -37,13 +42,16 @@ let state: StateType = {
       {id: v1(), message: 'yo'}
     ]
   },
-  profilePage:{
+  profilePage: {
+    inputPostMessage: '',
     posts: [
       {
+        id: v1(),
         message: 'hello )))',
         likesCount: 3
       },
       {
+        id: v1(),
         message: 'My first post',
         likesCount: 5
       }
@@ -51,4 +59,28 @@ let state: StateType = {
   },
 }
 
+export const addPost = () => {
+  const message: string = state.profilePage.inputPostMessage
+  if (message.length > 0) {
+    state.profilePage.posts = [...state.profilePage.posts, {id: v1(), message: message, likesCount: 0}]
+    inputPostMessageChange(``)
+    Render(state)
+  }
+}
+export const inputPostMessageChange = (value: string) => {
+  state.profilePage.inputPostMessage = value
+  Render(state)
+}
+export const incrementLikesCount = (id: string) => {
+  state.profilePage.posts.map(post =>
+    post.id === id ? post.likesCount += 1 : post
+  )
+  Render(state)
+}
+export const decrementLikesCount = (id: string) => {
+  state.profilePage.posts.map(post => post.id === id ?
+    post.likesCount !== 0 ?
+      post.likesCount += -1 : post.likesCount = 0 : post)
+  Render(state)
+}
 export default state

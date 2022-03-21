@@ -6,13 +6,13 @@ import Navbar from "./components/navbar/Navbar";
 import Profile from "./components/profile/Profile";
 import HomePage from "./components/homePage/HomePage";
 import Dialogs from "./components/dialogs/Dialogs";
-import state from "./components/redux/state";
-import dialogs from "./components/dialogs/Dialogs";
+import {StateType} from "./components/redux/state";
 
-function App(){
+type PropsType = {
+  state: StateType
+}
+const App: React.FC<PropsType> = ({state}) => {
 
-  let profileData = state.profilePage
-  let dialogsData = state.dialogsPage
 
   return (
     <div className={styles.app}>
@@ -20,9 +20,9 @@ function App(){
         <Header/>
         <Navbar/>
         <Switch>
-          <Route path={'/'} exact render={() => <HomePage />}/>
-          <Route path={'/profile'} render={() => <Profile data={profileData}/>}/>
-          <Route path={'/dialogs'} render={() => <Dialogs data={dialogsData} />}/>
+          <Route path={'/home-page'} render={() => <HomePage />}/>
+          <Route path={'/profile'} render={() => <Profile profilePageData={state.profilePage}/>}/>
+          <Route path={'/dialogs'} render={() => <Dialogs dialogsPageData={state.dialogsPage} />}/>
         </Switch>
       </Router>
     </div>

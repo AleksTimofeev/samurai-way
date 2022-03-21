@@ -1,33 +1,30 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import Post from "./post/Post";
 import styles from './MyPosts.module.css'
-import {PostsType} from "../../redux/state";
+import {addPost, inputPostMessageChange, ProfilePageType} from "../../redux/state";
 
 type PropsType = {
-  data: Array<PostsType>
+  profilePageData: ProfilePageType
 }
 
-const MyPosts: React.FC<PropsType> = ({data}) => {
+const MyPosts: React.FC<PropsType> = ({profilePageData: {
+                                          posts,
+                                          inputPostMessage
+                                        }}) => {
 
-  const [dataPosts, setDataPosts] = useState(data)
-  const [postMessage, setPostMessage] = useState('')
 
-  const handleAddPost = () => {
-    setDataPosts([...dataPosts, {message: postMessage, likesCount: 0}])
-    setPostMessage('')
-  }
-  const handleChange = (e: any) => {
-    setPostMessage(e.target.value)
+  const inputPostHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    inputPostMessageChange(e.currentTarget.value)
   }
 
   return (
     <div className={styles.wrapper}>
       <h3>My posts</h3>
-      <textarea value={postMessage} onChange={handleChange}/>
-      <button onClick={handleAddPost}>Add post</button>
+      <textarea value={inputPostMessage} onChange={inputPostHandler}/>
+      <button onClick={addPost}>Add post</button>
       <div className={styles.posts}>
-        {dataPosts.map((item, index) => (
-          <Post message={item.message} likes={item.likesCount} key={index}/>
+        {posts.map((item, index) => (
+          <Post postData={item} key={index}/>
         ))}
       </div>
     </div>

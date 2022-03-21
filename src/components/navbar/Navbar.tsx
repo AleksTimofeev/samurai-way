@@ -4,12 +4,14 @@ import {NavLink} from "react-router-dom";
 
 const Navbar = () => {
 
-
   return (
     <div className={styles.wrapper}>
       <h2>Navbar</h2>
 
       <ul className={styles.navigation}>
+        <li>
+          <NavLink activeClassName={styles.activeLink} to={'/home-page'} >Home page</NavLink>
+        </li>
         <li>
           <NavLink activeClassName={styles.activeLink} to={'/profile'} >Profile</NavLink>
         </li>

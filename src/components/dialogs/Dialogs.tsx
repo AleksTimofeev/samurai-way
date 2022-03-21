@@ -1,20 +1,20 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styles from './Dialogs.module.css'
 import Dialog from "./dialog/Dialog";
 import Message from "./message/Message";
-import {DialogType, MessageType} from "../redux/state";
+import {DialogsPageType} from "../redux/state";
 
 
 type PropsType = {
-  data: {
-    dialogs: Array<DialogType>
-    message: Array<MessageType>
-  }
+  dialogsPageData: DialogsPageType
 }
 
-const Dialogs:React.FC<PropsType> = ({data}) => {
-  let [dialogs, setDialogs] = useState<Array<DialogType>>(data.dialogs)
-  let [message, setMessage] = useState<Array<MessageType>>(data.message)
+const Dialogs: React.FC<PropsType> = ({
+                                        dialogsPageData: {
+                                          dialogs,
+                                          message
+                                        }
+                                      }) => {
   return (
     <div>
       <h2>Dialogs</h2>
@@ -23,7 +23,7 @@ const Dialogs:React.FC<PropsType> = ({data}) => {
           {dialogs.map((item, i) => <Dialog key={i} name={item.name} id={item.id}/>)}
         </div>
         <div className={styles.dialogsItem}>
-          {message.map((item, i) => <Message key={i} message={item.message} id={item.id}  />)}
+          {message.map((item, i) => <Message key={i} message={item.message} id={item.id}/>)}
         </div>
       </div>
     </div>

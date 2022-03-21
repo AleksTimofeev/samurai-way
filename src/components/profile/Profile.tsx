@@ -1,17 +1,17 @@
 import React from 'react';
 import styles from './Profile.module.css'
 import MyPosts from "./myPosts/MyPosts";
-import {PostsType} from "../redux/state";
+import {ProfilePageType} from "../redux/state";
 
 type PropsType = {
-  data: {posts: Array<PostsType>}
+  profilePageData: ProfilePageType
 }
 
-const Profile:React.FC<PropsType> = ({data}) => {
+const Profile:React.FC<PropsType> = (props) => {
   return (
     <div className={styles.wrapper}>
       <h2>Profile</h2>
-      <MyPosts data={data.posts}/>
+      <MyPosts profilePageData={props.profilePageData}/>
     </div>
   );
 };
