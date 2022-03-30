@@ -25,7 +25,7 @@ export type StateType = {
   dialogsPage: DialogsPageType
   profilePage: ProfilePageType
 }
-type StoreType = {}
+
 
 
 export let store = {
