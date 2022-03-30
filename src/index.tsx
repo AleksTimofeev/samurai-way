@@ -1,8 +1,19 @@
-/*import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';*/
-import './index.css';
-import Render from "./Render";
-import state from "./components/redux/state";
+import './index.css'
+import {store} from "./components/redux/state";
+import ReactDOM from "react-dom";
+import App from "./App";
+import React from "react";
 
-Render(state)
+const Render = () => {
+  return (
+    ReactDOM.render(
+      <App state={store.getState()} />,
+      document.getElementById('root')
+    )
+  )
+}
+
+store.subscribe(Render)
+
+Render()
+
