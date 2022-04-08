@@ -5,6 +5,7 @@ import App from "./App";
 import React from "react";
 
 const Render = () => {
+
   return (
     ReactDOM.render(
       <App state={store.getState()} />,

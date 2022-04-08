@@ -12,8 +12,6 @@ type PropsType = {
   state: StateType
 }
 const App: React.FC<PropsType> = ({state}) => {
-
-
   return (
     <div className={styles.app}>
       <Router>

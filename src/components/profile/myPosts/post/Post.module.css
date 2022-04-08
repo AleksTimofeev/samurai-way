@@ -24,6 +24,7 @@
   background: transparent;
   cursor: pointer;
   transition: .2s;
+  user-select: none;
 }
 .dislike {
   transform: rotate(180deg);

@@ -3,6 +3,7 @@ import styles from './Dialogs.module.css'
 import Dialog from "./dialog/Dialog";
 import Message from "./message/Message";
 import {DialogsPageType} from "../redux/state";
+import AddMessage from "./message/AddMessage/AddMessage";
 
 
 type PropsType = {
@@ -12,9 +13,11 @@ type PropsType = {
 const Dialogs: React.FC<PropsType> = ({
                                         dialogsPageData: {
                                           dialogs,
-                                          message
+                                          message,
+                                          newMessage
                                         }
                                       }) => {
+
   return (
     <div>
       <h2>Dialogs</h2>
@@ -25,6 +28,7 @@ const Dialogs: React.FC<PropsType> = ({
         <div className={styles.dialogsItem}>
           {message.map((item, i) => <Message key={i} message={item.message} id={item.id}/>)}
         </div>
+        <AddMessage newMessage={newMessage} />
       </div>
     </div>
   );

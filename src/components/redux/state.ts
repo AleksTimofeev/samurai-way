@@ -1,4 +1,6 @@
 import {v1} from "uuid";
+import profileReducer, {ProfileActionsType} from "./profileReducer";
+import dialogsReducer, {DialogsActionsType} from "./dialogsReducer";
 
 export type DialogType = {
   id: string
@@ -11,6 +13,7 @@ export type MessageType = {
 export type DialogsPageType = {
   dialogs: Array<DialogType>
   message: Array<MessageType>
+  newMessage: string
 }
 export type PostType = {
   id: string
@@ -25,10 +28,18 @@ export type StateType = {
   dialogsPage: DialogsPageType
   profilePage: ProfilePageType
 }
+export type StoreType = {
+  _state: StateType
+  getState: () => StateType
+  subscribe: (observer: () => void) => void
+  dispatch: (action: ActionsTypes) => void
+  rerender: () => void
+}
+
+export type ActionsTypes = ProfileActionsType | DialogsActionsType
 
 
-
-export let store = {
+export let store: StoreType = {
   _state: {
     dialogsPage: {
       dialogs: [
@@ -41,7 +52,8 @@ export let store = {
         {id: v1(), message: 'hello'},
         {id: v1(), message: 'by'},
         {id: v1(), message: 'yo'}
-      ]
+      ],
+      newMessage: ''
     },
     profilePage: {
       inputPostMessage: '',
@@ -59,35 +71,16 @@ export let store = {
       ]
     },
   },
-  getState(){
+  getState() {
     return this._state
   },
-  addPost(){
-    const message: string = this._state.profilePage.inputPostMessage
-    if (message.length > 0) {
-      this._state.profilePage.posts = [...this._state.profilePage.posts, {id: v1(), message: message, likesCount: 0}]
-      this.inputPostMessageChange(``)
-      this.rerender()
-    }
+  subscribe(observer: () => void) {
+    this.rerender = observer
   },
-  inputPostMessageChange(value: string){
-    this._state.profilePage.inputPostMessage = value
+  dispatch(action) {
+    this._state.profilePage = profileReducer(this._state.profilePage, action)
+    this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
     this.rerender()
   },
-  incrementLikesCount(id: string){
-    this._state.profilePage.posts.map(post =>
-      post.id === id ? post.likesCount += 1 : post
-    )
-    this.rerender()
-  },
-  decrementLikesCount(id: string){
-    this._state.profilePage.posts.map(post => post.id === id ?
-      post.likesCount !== 0 ?
-        post.likesCount += -1 : post.likesCount = 0 : post)
-    this.rerender()
-  },
-  subscribe(observer: ()=>void){
-  this.rerender = observer
-},
-  rerender(){}
+  rerender() {},
 }
