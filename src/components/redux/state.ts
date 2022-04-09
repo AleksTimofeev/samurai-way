@@ -1,8 +1,16 @@
 import {v1} from "uuid";
-import profileReducer, {ProfileActionsType} from "./profileReducer";
-import dialogsReducer, {DialogsActionsType} from "./dialogsReducer";
+import profileReducer, {
+  addPostActionCreator,
+  decrementLikesCountActionCreator,
+  incrementLikesCountActionCreator,
+  inputPostMessageActionCreator,
+} from "./profileReducer";
+import dialogsReducer, {
+  addMessageDialogActionCreator,
+  newMessageActionCreator
+} from "./dialogsReducer";
 
-export type DialogType = {
+export type DialogsType = {
   id: string
   name: string
 }
@@ -11,7 +19,7 @@ export type MessageType = {
   message: string
 }
 export type DialogsPageType = {
-  dialogs: Array<DialogType>
+  dialogs: Array<DialogsType>
   message: Array<MessageType>
   newMessage: string
 }
@@ -36,7 +44,13 @@ export type StoreType = {
   rerender: () => void
 }
 
-export type ActionsTypes = ProfileActionsType | DialogsActionsType
+export type ActionsTypes =
+  ReturnType<typeof addPostActionCreator> |
+  ReturnType<typeof inputPostMessageActionCreator> |
+  ReturnType<typeof incrementLikesCountActionCreator> |
+  ReturnType<typeof decrementLikesCountActionCreator> |
+  ReturnType<typeof newMessageActionCreator> |
+  ReturnType<typeof addMessageDialogActionCreator>
 
 
 export let store: StoreType = {
@@ -45,8 +59,7 @@ export let store: StoreType = {
       dialogs: [
         {id: v1(), name: 'Alex'},
         {id: v1(), name: 'Sophia'},
-        {id: v1(), name: 'Olga'},
-        {id: v1(), name: 'Max'}
+        {id: v1(), name: 'Bob'}
       ],
       message: [
         {id: v1(), message: 'hello'},
@@ -82,5 +95,6 @@ export let store: StoreType = {
     this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
     this.rerender()
   },
-  rerender() {},
+  rerender() {
+  },
 }

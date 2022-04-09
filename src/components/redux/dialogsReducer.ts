@@ -1,14 +1,11 @@
 import {v1} from "uuid";
-import {DialogsPageType} from "./state";
+import {ActionsTypes, DialogsPageType} from "./state";
 
 const NEW_MESSAGE = 'NEW_MESSAGE'
 const ADD_MESSAGE_DIALOG = 'ADD_MESSAGE_DIALOG'
 
-export type DialogsActionsType =
-  ReturnType<typeof newMessageActionCreator> |
-  ReturnType<typeof addMessageDialogActionCreator>
 
-const dialogsReducer = (state: DialogsPageType, action: DialogsActionsType) => {
+const dialogsReducer = (state: DialogsPageType, action: ActionsTypes) => {
 
   if (action.type === NEW_MESSAGE){
     state.newMessage = action.value

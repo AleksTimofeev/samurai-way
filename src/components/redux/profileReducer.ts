@@ -1,18 +1,12 @@
 import {v1} from "uuid";
-import {ProfilePageType} from "./state";
+import {ActionsTypes, ProfilePageType} from "./state";
 
 export const ADD_POST = 'ADD_POST'
 export const INPUT_POST_MESSAGE_CHANGE = 'INPUT_POST_MESSAGE_CHANGE'
 export const INCREMENT_LIKES_COUNT = 'INCREMENT_LIKES_COUNT'
 export const DECREMENT_LIKES_COUNT = 'DECREMENT_LIKES_COUNT'
 
-export type ProfileActionsType =
-  ReturnType<typeof addPostActionCreator> |
-  ReturnType<typeof inputPostMessageActionCreator> |
-  ReturnType<typeof incrementLikesCountActionCreator> |
-  ReturnType<typeof decrementLikesCountActionCreator>
-
-const profileReducer = (state: ProfilePageType, action: ProfileActionsType) => {
+const profileReducer = (state: ProfilePageType, action: ActionsTypes) => {
 
   switch (action.type) {
     case ADD_POST:
