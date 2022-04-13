@@ -1,0 +1,6 @@
+.wrapper {
+  grid-area: profile;
+  display: flex;
+  flex-direction: column;
+  background: #c4ff89;
+}

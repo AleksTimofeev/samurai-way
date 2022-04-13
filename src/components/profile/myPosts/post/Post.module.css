@@ -1,0 +1,39 @@
+
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+.avatar {
+  width: 50px;
+  border-radius: 50%;
+}
+.message {
+  font-size: 1.5rem;
+  margin-right: 20px;
+}
+.likeIcon {
+  width: 30px;
+  height: 30px;
+}
+.likeButton {
+  margin: 0 .5rem;
+  padding: 0;
+  line-height: 0;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: .2s;
+  user-select: none;
+}
+.dislike {
+  transform: rotate(180deg);
+}
+.likeButton:hover {
+  box-shadow: 0 0 5px 0 #000000;
+  transition: .2s;
+}
+.likeButton:active {
+  box-shadow: none;
+  transition: .1s;
+}

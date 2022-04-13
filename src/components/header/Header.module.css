@@ -1,0 +1,11 @@
+.wrapper {
+  display: flex;
+  grid-area: header;
+  align-items: center;
+  background: #ffecd5;
+}
+.wrapper img {
+  width: 100px;
+}
+.logo { grid-area: logo; }
+.title { grid-area: title; }

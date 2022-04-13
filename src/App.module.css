@@ -1,0 +1,10 @@
+.app {
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: 0.5fr 2fr;
+  grid-template-rows: 100px 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "header header"
+    "navbar profile";
+}
