@@ -3,24 +3,22 @@ import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import styles from './App.module.css'
 import Header from "./components/header/Header";
 import Navbar from "./components/navbar/Navbar";
-import Profile from "./components/profile/Profile";
-import HomePage from "./components/homePage/HomePage";
-import Dialogs from "./components/dialogs/Dialogs";
-import {StateType} from "./components/redux/state";
+import {HomePageContainer} from "./components/homePage/HomePageContainer";
+import { DialogsContainer } from './components/dialogs/DialogsContainer';
+import { ProfileContainer } from './components/profile/ProfileContainer';
 
-type PropsType = {
-  state: StateType
-}
-const App: React.FC<PropsType> = ({state}) => {
+
+const App = () => {
+
   return (
     <div className={styles.app}>
       <Router>
         <Header/>
         <Navbar/>
         <Routes>
-          <Route path={'/home-page'} element={<HomePage />}/>
-          <Route path={'/profile'} element={<Profile profilePageData={state.profilePage}/>}/>
-          <Route path={'/dialogs/*'} element={<Dialogs dialogsPageData={state.dialogsPage}/>}/>
+          <Route path={'/home-page'} element={<HomePageContainer />}/>
+          <Route path={'/profile'} element={<ProfileContainer />}/>
+          <Route path={'/dialogs/*'} element={<DialogsContainer />}/>
         </Routes>
       </Router>
     </div>

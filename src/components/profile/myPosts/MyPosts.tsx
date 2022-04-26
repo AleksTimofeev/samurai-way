@@ -1,34 +1,34 @@
 import React, {ChangeEvent} from 'react';
 import Post from "./post/Post";
 import styles from './MyPosts.module.css'
-import {ProfilePageType, store} from "../../redux/state";
-import {addPostActionCreator, inputPostMessageActionCreator} from "../../redux/profileReducer";
+import {ProfilePropsType} from "../ProfileContainer";
 
-type PropsType = {
-  profilePageData: ProfilePageType
-}
 
-const MyPosts: React.FC<PropsType> = ({profilePageData: {
-                                          posts,
-                                          inputPostMessage
-                                        }}) => {
+
+const MyPosts: React.FC<ProfilePropsType> = (props) => {
 
 
   const inputPostHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    store.dispatch(inputPostMessageActionCreator(e.currentTarget.value))
+    props.inputPostMessageActionCreator(e.currentTarget.value)
   }
+
   const addPost = () => {
-    store.dispatch(addPostActionCreator())
+    props.addPostActionCreator()
   }
 
   return (
     <div className={styles.wrapper}>
       <h3>My posts</h3>
-      <textarea value={inputPostMessage} onChange={inputPostHandler}/>
+      <textarea value={props.inputPostMessage} onChange={inputPostHandler}/>
       <button onClick={addPost}>Add post</button>
       <div className={styles.posts}>
-        {posts.map((item, index) => (
-          <Post postData={item} key={index}/>
+        {props.posts.map((item, index) => (
+          <Post
+            key={index}
+            postData={item}
+            incrementLikesCount={props.incrementLikesCountActionCreator}
+            decrementLikesCount={props.decrementLikesCountActionCreator}
+          />
         ))}
       </div>
     </div>

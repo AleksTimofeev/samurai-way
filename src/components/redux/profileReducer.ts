@@ -1,33 +1,67 @@
 import {v1} from "uuid";
-import {ActionsTypes, ProfilePageType} from "./state";
+// import {ActionsTypes, ProfilePageType} from "./state";
 
 export const ADD_POST = 'ADD_POST'
 export const INPUT_POST_MESSAGE_CHANGE = 'INPUT_POST_MESSAGE_CHANGE'
 export const INCREMENT_LIKES_COUNT = 'INCREMENT_LIKES_COUNT'
 export const DECREMENT_LIKES_COUNT = 'DECREMENT_LIKES_COUNT'
 
+export type PostType = {
+  id: string
+  message: string
+  likesCount: number
+}
+export type ProfilePageType = {
+  inputPostMessage: string
+  posts: Array<PostType>
+}
 
-const profileReducer = (state: ProfilePageType, action: ActionsTypes) => {
+const initialState = {
+  inputPostMessage: '',
+  posts: [
+    {
+      id: v1(),
+      message: 'hello )))',
+      likesCount: 3
+    },
+    {
+      id: v1(),
+      message: 'My first post',
+      likesCount: 5
+    }
+  ]
+}
+export type ActionsType = ReturnType<typeof addPostActionCreator> |
+  ReturnType<typeof inputPostMessageActionCreator> |
+  ReturnType<typeof incrementLikesCountActionCreator> |
+  ReturnType<typeof decrementLikesCountActionCreator>
+
+
+const profileReducer = (state: ProfilePageType = initialState, action: ActionsType): ProfilePageType => {
 
   switch (action.type) {
+
     case ADD_POST:
       const message: string = state.inputPostMessage
       if (message.length > 0) {
-        state.posts = [...state.posts, {id: v1(), message: message, likesCount: 0}]
-        state.inputPostMessage = ''
+        return {...state, posts: [...state.posts, {id: v1(), message: message, likesCount: 0}], inputPostMessage: ''}
       }
       return state
+
     case INPUT_POST_MESSAGE_CHANGE:
-      state.inputPostMessage = action.value
-      return state
+      return {...state, inputPostMessage: action.value}
+
     case INCREMENT_LIKES_COUNT:
-      state.posts.map(post => post.id === action.idPost ? post.likesCount += 1 : post)
-      return state
+
+      let newPosts = state.posts.map(post => post.id === action.idPost ? {...post, likesCount : post.likesCount+1} : {...post})
+      return {...state, posts: newPosts}
+
     case DECREMENT_LIKES_COUNT:
-      state.posts.map(post => post.id === action.idPost ?
-        post.likesCount !== 0 ?
-          post.likesCount += -1 : post.likesCount = 0 : post)
-      return state
+      let newP = state.posts.map(post => (
+        post.id === action.idPost && post.likesCount !==0 ? {...post, likesCount: post.likesCount += -1} : {...post}
+      ))
+      return {...state, posts: newP}
+
     default:
       return state
   }

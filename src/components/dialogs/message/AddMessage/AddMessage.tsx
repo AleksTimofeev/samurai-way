@@ -1,21 +1,22 @@
 import React, {ChangeEvent} from 'react';
-import {store} from "../../../redux/state";
-import {addMessageDialogActionCreator, newMessageActionCreator} from "../../../redux/dialogsReducer";
 
 type PropsType = {
   newMessage: string
+  onChangeInputMessage: (value: string) => void
+  addMessage: () => void
 }
 
-const AddMessage: React.FC<PropsType> = ({newMessage}) => {
+const AddMessage: React.FC<PropsType> = ({newMessage, onChangeInputMessage, addMessage}) => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    store.dispatch(newMessageActionCreator(e.currentTarget.value))
+    onChangeInputMessage(e.currentTarget.value)
+
   }
   const clickHandle = () => {
-    store.dispatch(addMessageDialogActionCreator())
+    addMessage()
   }
   const handleOnEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    e.key === 'Enter' && store.dispatch(addMessageDialogActionCreator())
+    e.key === 'Enter' && addMessage()
   }
 
   return (

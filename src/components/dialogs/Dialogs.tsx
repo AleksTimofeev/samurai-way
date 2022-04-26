@@ -1,21 +1,15 @@
 import React from 'react';
 import styles from './Dialogs.module.css'
+import {DialogsPropsType} from "./DialogsContainer";
 import Dialog from "./dialog/Dialog";
 import Message from "./message/Message";
-import {DialogsPageType} from "../redux/state";
 import AddMessage from "./message/AddMessage/AddMessage";
 
-type PropsType = {
-  dialogsPageData: DialogsPageType
-}
 
-const Dialogs: React.FC<PropsType> = ({
-                                        dialogsPageData: {
-                                          dialogs,
-                                          message,
-                                          newMessage
-                                        }
-                                      }) => {
+const Dialogs: React.FC<DialogsPropsType> = ({
+                                               dialogs, message, newMessage,
+                                               addMessageDialogActionCreator, newMessageActionCreator
+                                             }) => {
 
   return (
     <div>
@@ -27,7 +21,11 @@ const Dialogs: React.FC<PropsType> = ({
         <div className={styles.dialogsItem}>
           {message.map((item, i) => <Message key={i} message={item.message} id={item.id}/>)}
         </div>
-        <AddMessage newMessage={newMessage} />
+        <AddMessage
+          newMessage={newMessage}
+          addMessage={addMessageDialogActionCreator}
+          onChangeInputMessage={newMessageActionCreator}
+        />
       </div>
     </div>
   );
