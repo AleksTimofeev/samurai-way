@@ -6,6 +6,7 @@ import Navbar from "./components/navbar/Navbar";
 import {HomePageContainer} from "./components/homePage/HomePageContainer";
 import { DialogsContainer } from './components/dialogs/DialogsContainer';
 import { ProfileContainer } from './components/profile/ProfileContainer';
+import { UsersPageContainer } from './components/UserPage/UsersPageContainer';
 
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
           <Route path={'/home-page'} element={<HomePageContainer />}/>
           <Route path={'/profile'} element={<ProfileContainer />}/>
           <Route path={'/dialogs/*'} element={<DialogsContainer />}/>
+          <Route path={'/users'} element={<UsersPageContainer />}/>
         </Routes>
       </Router>
     </div>

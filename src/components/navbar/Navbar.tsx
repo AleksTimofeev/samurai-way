@@ -19,6 +19,9 @@ const Navbar: React.FC<PropsType> = () => {
         <li>
           <NavLink className={({isActive}) => isActive ? styles.activeLink : '' } to={'/dialogs'}>Dialogs</NavLink>
         </li>
+        <li>
+          <NavLink className={({isActive}) => isActive ? styles.activeLink : '' } to={'/users'}>Users</NavLink>
+        </li>
         <li>News</li>
         <li>Music</li>
         <li>Settings</li>

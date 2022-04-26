@@ -1,0 +1,13 @@
+.userWrapper {
+  max-width: 500px;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 10px;
+  border-radius: 10px;
+}
+.followUser {
+  background: #00d2d2;
+}
+.unfollowUser {
+  background: #ffb793;
+}
