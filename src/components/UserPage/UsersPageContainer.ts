@@ -1,16 +1,15 @@
 import {connect} from "react-redux";
-import UsersPage from "./UsersPage";
-import {Dispatch} from "redux";
 import {AppStateType} from "../redux/store";
 import {
   changeCurrentPage,
   follow,
-  getUsers,
+  getUsers, isFetching,
   setNumberPages,
   unfollow,
   UsersPageType,
   UserType
 } from "../redux/usersReducer";
+import UsersPageAPIContainer from "./UsersPageAPIContainer";
 
 type MapDispatchPropsType = {
   follow: (userId: number) => void
@@ -18,20 +17,14 @@ type MapDispatchPropsType = {
   getUsers: (users: Array<UserType>) => void
   changeCurrentPage: (pageNumber: number) => void
   setNumberPages : (numberPages: number) => void
+  isFetching : () => void
 }
 export type UserPagePropsType = MapDispatchPropsType & UsersPageType
 
 const mapStateToProps = (state: AppStateType): UsersPageType => state.usersPage
 
-const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
-  return {
-    follow: (userId) => dispatch(follow(userId)),
-    unfollow: (userId) => dispatch(unfollow(userId)),
-    getUsers: (users) => dispatch(getUsers(users)),
-    changeCurrentPage: (pageNumber) => dispatch(changeCurrentPage(pageNumber)),
-    setNumberPages : (numberPages) => dispatch(setNumberPages(numberPages)),
-  }
+const actions: MapDispatchPropsType = {
+  follow, unfollow, getUsers, changeCurrentPage, setNumberPages, isFetching
 }
 
-
-export const UsersPageContainer = connect(mapStateToProps, mapDispatchToProps)(UsersPage)
+export const UsersPageContainer = connect(mapStateToProps, actions)(UsersPageAPIContainer)

@@ -1,8 +1,14 @@
-import {combineReducers, createStore} from "redux";
+import {combineReducers, createStore, compose} from "redux";
 import profileReducer from "./profileReducer";
 import dialogsReducer from "./dialogsReducer";
 import homePageReducer from "./homePageReducer";
 import usersReducer from "./usersReducer";
+
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
 
 const rootReducer = combineReducers({
   profilePage: profileReducer,
@@ -13,6 +19,8 @@ const rootReducer = combineReducers({
 
 export type AppStateType = ReturnType<typeof rootReducer>
 
-const store = createStore(rootReducer)
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(rootReducer, composeEnhancers())
 
 export default store

@@ -1,15 +1,15 @@
-import {Dispatch} from "redux";
 import {connect} from "react-redux";
-import Profile from "./Profile";
 import {AppStateType} from "../redux/store";
 import {
   addPostActionCreator, decrementLikesCountActionCreator,
   incrementLikesCountActionCreator,
-  inputPostMessageActionCreator, ProfilePageType
+  inputPostMessageActionCreator, ProfileDataType, ProfilePageType, setProfileData
 } from "../redux/profileReducer";
+import ProfileRouterContainer from "./ProfileRouterContainer";
 
 
 type MapDispatchPropsType = {
+  setProfileData: (profileData: ProfileDataType) => void
   addPostActionCreator: () => void
   inputPostMessageActionCreator: (value: string) => void
   incrementLikesCountActionCreator: (idPost: string) => void
@@ -20,21 +20,13 @@ export type ProfilePropsType = ProfilePageType & MapDispatchPropsType
 
 const mapStateToProps = (state: AppStateType): ProfilePageType => state.profilePage
 
-const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
-  return {
-    addPostActionCreator: () => {
-      dispatch(addPostActionCreator())
-    },
-    inputPostMessageActionCreator: (value: string) => {
-      dispatch(inputPostMessageActionCreator(value))
-    },
-    incrementLikesCountActionCreator: (idPost: string) => {
-      dispatch(incrementLikesCountActionCreator(idPost))
-    },
-    decrementLikesCountActionCreator: (idPost: string) => {
-      dispatch(decrementLikesCountActionCreator(idPost))
-    }
-  }
+const actions: MapDispatchPropsType = {
+  setProfileData,
+  addPostActionCreator,
+  inputPostMessageActionCreator,
+  incrementLikesCountActionCreator,
+  decrementLikesCountActionCreator,
 }
 
-export const ProfileContainer = connect(mapStateToProps, mapDispatchToProps)(Profile)
+export const ProfileContainer = connect(mapStateToProps, actions)(ProfileRouterContainer)
+
