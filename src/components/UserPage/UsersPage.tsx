@@ -1,19 +1,30 @@
-import React, {useEffect, useState} from 'react';
-
+import React from 'react';
 import styles from './UserPage.module.css'
-
 import {UserType} from "../redux/usersReducer";
-import {NavLink, useNavigate, useRoutes} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import {usersApi} from "../../api/api";
 
 type PropsType = {
+  getUsers: (users: Array<UserType>) => void
   follow: (userId: number) => void
   unfollow: (userId: number) => void
+  followUserOk: (userId: number) => void
   onChangeCurrentPage: (pageNumber: number) => void
   users: Array<UserType>
   currentPage: number
+  followProgress: Array<number>
 }
 
-const UsersPage: React.FC<PropsType> = ({users, currentPage, follow, unfollow, onChangeCurrentPage}) => {
+const UsersPage: React.FC<PropsType> = ({
+                                          users,
+                                          currentPage,
+                                          getUsers,
+                                          follow,
+                                          unfollow,
+                                          followUserOk,
+                                          onChangeCurrentPage,
+                                          followProgress
+                                        }) => {
 
   const arrNumberPages = []
   let startNumberPages = 1
@@ -30,12 +41,42 @@ const UsersPage: React.FC<PropsType> = ({users, currentPage, follow, unfollow, o
     navigate(`/profile/${userId}`)
   }
 
+  const followHandler = (userId: number) => {
+    follow(userId)
+    usersApi.follow(userId)
+      .then(res => {
+        if (res.data.resultCode === 0) {
+          usersApi.getUsers(currentPage)
+            .then(data => {
+              getUsers(data.items)
+              followUserOk(userId)
+            })
+        }
+      })
+  }
+  const unfollowHandler = (userId: number) => {
+    unfollow(userId)
+    usersApi.unfollow(userId)
+      .then(res => {
+        if (res.data.resultCode === 0) {
+          usersApi.getUsers(currentPage)
+            .then(data => {
+              getUsers(data.items)
+              followUserOk(userId)
+            })
+        }
+      })
+  }
+
+
   return (
     <div>
       <div>
         {arrNumberPages && arrNumberPages.map((item, i) => (
-          <button className={item === currentPage ? styles.activePageButton : ''}
-                  onClick={() => onChangeCurrentPage(item)}>{item}</button>
+          <button
+            key={i + `${currentPage}`}
+            className={item === currentPage ? styles.activePageButton : ''}
+            onClick={() => onChangeCurrentPage(item)}>{item}</button>
         ))}
       </div>
       {
@@ -43,11 +84,26 @@ const UsersPage: React.FC<PropsType> = ({users, currentPage, follow, unfollow, o
 
           <div className={`${styles.userWrapper} ${user.followed ? styles.unfollowUser : styles.followUser}`}
                key={user.id}>
+            <div className={styles.userPhotoContainer}>
+              <img src={`${
+                user.photos.large ||
+                user.photos.small ||
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8LFeb4jspw2truDvJVg5Wzj3TflskRenc1A&usqp=CAU'}`
+              } alt={'userPhoto'}/>
+            </div>
             <div>
               <p>{user.name}</p>
               {user.followed ?
-                <button onClick={() => unfollow(user.id)}>unfollow</button> :
-                <button onClick={() => follow(user.id)}>follow</button>}
+                <button
+                  disabled={followProgress.some(userId => userId === user.id)}
+                  onClick={() => unfollowHandler(user.id)
+                  }>unfollow
+                </button> :
+                <button
+                  disabled={followProgress.some(userId => userId === user.id)}
+                  onClick={() => followHandler(user.id)
+                  }>follow
+                </button>}
             </div>
             <div>
               <p>{user.status || 'without status'}</p>

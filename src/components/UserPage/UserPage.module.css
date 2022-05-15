@@ -1,10 +1,18 @@
 .userWrapper {
-  max-width: 500px;
-  display: flex;
-  justify-content: space-evenly;
+  display: grid;
+  grid-template-columns: 100px 1fr 1fr;
+  grid-template-rows: 100px;
+  gap: 20px 20px;
+  grid-auto-flow: row dense;
+  grid-template-areas:
+    "userPhotoContainer . .";
   margin: 10px;
-  border-radius: 10px;
+  border-radius: 5px;
+  max-width: 500px;
 }
+
+.userPhotoContainer { grid-area: userPhotoContainer; }
+
 .followUser {
   background: #00d2d2;
 }
@@ -13,4 +21,10 @@
 }
 .activePageButton {
   background: #61dafb;
+}
+.userPhotoContainer {
+  padding: 10px;
+}
+.userPhotoContainer img {
+  width: 100%;
 }

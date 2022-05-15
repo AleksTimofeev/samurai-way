@@ -3,6 +3,7 @@ import profileReducer from "./profileReducer";
 import dialogsReducer from "./dialogsReducer";
 import homePageReducer from "./homePageReducer";
 import usersReducer from "./usersReducer";
+import authReducer from "./authReducer";
 
 declare global {
   interface Window {
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   profilePage: profileReducer,
   dialogsPage: dialogsReducer,
   homePage: homePageReducer,
-  usersPage: usersReducer
+  usersPage: usersReducer,
+  auth: authReducer
 })
 
 export type AppStateType = ReturnType<typeof rootReducer>

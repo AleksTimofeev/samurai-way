@@ -4,7 +4,7 @@ import MyPosts from "./myPosts/MyPosts";
 import {ProfilePropsType} from "./ProfileContainer";
 
 
-const Profile:React.FC<ProfilePropsType> = (props) => {
+const Profile: React.FC<ProfilePropsType> = (props) => {
 
   const {aboutMe, fullName, lookingForAJob, lookingForAJobDescription, photos, userId, contacts} = props.profileData
 
@@ -13,9 +13,11 @@ const Profile:React.FC<ProfilePropsType> = (props) => {
   return (
     <div className={styles.wrapper}>
 
-      <img src={photoUrl} width={'150px'} alt={'userPhoto'}/>
-      <h2>{fullName}</h2>
-      <span>About me - - - {aboutMe || '*_*'}</span>
+      {<>
+        <img src={photoUrl} width={'150px'} alt={'userPhoto'}/>
+        <h2>{fullName}</h2>
+        <span>About me - - - {aboutMe || '*_*'}</span>
+      </>}
 
       <MyPosts
         inputPostMessageActionCreator={props.inputPostMessageActionCreator}
@@ -23,7 +25,7 @@ const Profile:React.FC<ProfilePropsType> = (props) => {
         incrementLikesCountActionCreator={props.incrementLikesCountActionCreator}
         decrementLikesCountActionCreator={props.decrementLikesCountActionCreator}
         inputPostMessage={props.inputPostMessage}
-        posts={props.posts} />
+        posts={props.posts}/>
     </div>
   );
 };
