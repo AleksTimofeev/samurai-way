@@ -1,14 +1,11 @@
 import React from 'react';
 import styles from './UserPage.module.css'
-import {UserType} from "../redux/usersReducer";
+import {UserType} from "../../redux/usersReducer";
 import {useNavigate} from "react-router-dom";
-import {usersApi} from "../../api/api";
 
 type PropsType = {
-  getUsers: (users: Array<UserType>) => void
-  follow: (userId: number) => void
-  unfollow: (userId: number) => void
-  followUserOk: (userId: number) => void
+  followTC: (userId: number, currentPage: number) => void
+  unfollowTC: (userId: number, currentPage: number) => void
   onChangeCurrentPage: (pageNumber: number) => void
   users: Array<UserType>
   currentPage: number
@@ -18,10 +15,8 @@ type PropsType = {
 const UsersPage: React.FC<PropsType> = ({
                                           users,
                                           currentPage,
-                                          getUsers,
-                                          follow,
-                                          unfollow,
-                                          followUserOk,
+                                          followTC,
+                                          unfollowTC,
                                           onChangeCurrentPage,
                                           followProgress
                                         }) => {
@@ -42,30 +37,12 @@ const UsersPage: React.FC<PropsType> = ({
   }
 
   const followHandler = (userId: number) => {
-    follow(userId)
-    usersApi.follow(userId)
-      .then(res => {
-        if (res.data.resultCode === 0) {
-          usersApi.getUsers(currentPage)
-            .then(data => {
-              getUsers(data.items)
-              followUserOk(userId)
-            })
-        }
-      })
+    followTC(userId, currentPage)
   }
+
   const unfollowHandler = (userId: number) => {
-    unfollow(userId)
-    usersApi.unfollow(userId)
-      .then(res => {
-        if (res.data.resultCode === 0) {
-          usersApi.getUsers(currentPage)
-            .then(data => {
-              getUsers(data.items)
-              followUserOk(userId)
-            })
-        }
-      })
+    unfollowTC(userId, currentPage)
+
   }
 
 

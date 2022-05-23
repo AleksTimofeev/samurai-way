@@ -1,15 +1,16 @@
 import {connect} from "react-redux";
-import {AppStateType} from "../redux/store";
+import {AppStateType} from "../../redux/store";
 import {
-  addPostActionCreator, decrementLikesCountActionCreator,
+  addPostActionCreator, decrementLikesCountActionCreator, getProfileData,
   incrementLikesCountActionCreator,
   inputPostMessageActionCreator, ProfileDataType, ProfilePageType, setProfileData
-} from "../redux/profileReducer";
+} from "../../redux/profileReducer";
 import ProfileRouterContainer from "./ProfileRouterContainer";
 
 
 type MapDispatchPropsType = {
   setProfileData: (profileData: ProfileDataType) => void
+  getProfileData: (userId: number) => void
   addPostActionCreator: () => void
   inputPostMessageActionCreator: (value: string) => void
   incrementLikesCountActionCreator: (idPost: string) => void
@@ -22,6 +23,7 @@ const mapStateToProps = (state: AppStateType): ProfilePageType => state.profileP
 
 const actions: MapDispatchPropsType = {
   setProfileData,
+  getProfileData,
   addPostActionCreator,
   inputPostMessageActionCreator,
   incrementLikesCountActionCreator,

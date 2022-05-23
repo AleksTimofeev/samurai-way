@@ -1,25 +1,24 @@
-import React, {memo, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import styles from './Header.module.css'
 import logo from '../../assets/image/logo.png'
-import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserData, UserDataType} from "../redux/authReducer";
-import {AppStateType} from "../redux/store";
+import {authMe, UserDataType} from "../../redux/authReducer";
+import {AppStateType} from "../../redux/store";
+import {useNavigate} from "react-router-dom";
 
 type PropsType = {}
 
 const Header: React.FC<PropsType> = () => {
   const dispatch = useDispatch()
   const userData = useSelector((state: AppStateType): UserDataType => state.auth)
+  const navigate = useNavigate()
+
+  const handleClickLogin = () => {
+    navigate('/login')
+  }
 
   useEffect(() => {
-    axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {withCredentials: true})
-      .then(res => {
-        if (res.data.resultCode === 0) {
-          dispatch(getUserData(res.data.data))
-
-        }
-      })
+    authMe()(dispatch)
   }, [])
 
   return (
@@ -31,7 +30,7 @@ const Header: React.FC<PropsType> = () => {
           <h3>{userData.login}</h3>
         </div> :
         <div className={styles.login}>
-          <button><h3>Login</h3></button>
+          <button onClick={handleClickLogin}><h3>Login</h3></button>
         </div>}
     </div>
   );

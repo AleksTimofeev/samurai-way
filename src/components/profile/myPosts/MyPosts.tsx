@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from 'react';
 import Post from "./post/Post";
 import styles from './MyPosts.module.css'
-import {PostType} from "../../redux/profileReducer";
+import {PostType} from "../../../redux/profileReducer";
 
 type PropsType = {
   inputPostMessageActionCreator: (value: string) => void

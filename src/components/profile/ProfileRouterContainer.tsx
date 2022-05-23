@@ -3,7 +3,7 @@ import {ProfileAPIContainer} from "./ProfileAPIContainer";
 import {ProfilePropsType} from "./ProfileContainer";
 import {useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {AppStateType} from "../redux/store";
+import {AppStateType} from "../../redux/store";
 
 const ProfileRouterContainer: React.FC<ProfilePropsType> = (props) => {
 

@@ -7,6 +7,7 @@ import {HomePageContainer} from "./components/homePage/HomePageContainer";
 import { DialogsContainer } from './components/dialogs/DialogsContainer';
 import { ProfileContainer } from './components/profile/ProfileContainer';
 import { UsersPageContainer } from './components/UserPage/UsersPageContainer';
+import LoginPage from "./components/loginPage/LoginPage";
 
 
 const App = () => {
@@ -22,6 +23,8 @@ const App = () => {
           <Route path={'/profile/:id'} element={<ProfileContainer />}/>
           <Route path={'/dialogs/*'} element={<DialogsContainer />}/>
           <Route path={'/users'} element={<UsersPageContainer />}/>
+
+          <Route path={'/login'} element={<LoginPage />} />
         </Routes>
       </Router>
     </div>

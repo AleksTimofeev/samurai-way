@@ -1,22 +1,20 @@
 import {connect} from "react-redux";
-import {AppStateType} from "../redux/store";
+import {AppStateType} from "../../redux/store";
 import {
-  changeCurrentPage,
-  follow, followUserOk,
-  getUsers, isFetchingUsers,
+  changeCurrentPageTC,
+   followTC,
+  getUsersTC, isFetchingUsers,
   setNumberPages,
-  unfollow,
+   unfollowTC,
   UsersPageType,
-  UserType
-} from "../redux/usersReducer";
+} from "../../redux/usersReducer";
 import UsersPageAPIContainer from "./UsersPageAPIContainer";
 
 type MapDispatchPropsType = {
-  follow: (userId: number) => void
-  unfollow: (userId: number) => void
-  followUserOk: (userId: number) => void
-  getUsers: (users: Array<UserType>) => void
-  changeCurrentPage: (pageNumber: number) => void
+  followTC: (userId: number, currentPage: number) => void
+  unfollowTC: (userId: number, currentPage: number) => void
+  getUsersTC: (currentPage: number) => void
+  changeCurrentPageTC: (pageNumber: number) => void
   setNumberPages : (numberPages: number) => void
   isFetchingUsers : () => void
 }
@@ -25,7 +23,7 @@ export type UserPagePropsType = MapDispatchPropsType & UsersPageType
 const mapStateToProps = (state: AppStateType): UsersPageType => state.usersPage
 
 const actions: MapDispatchPropsType = {
-  follow, unfollow, followUserOk, getUsers, changeCurrentPage, setNumberPages, isFetchingUsers
+  getUsersTC, changeCurrentPageTC, setNumberPages, isFetchingUsers, followTC, unfollowTC
 }
 
 export const UsersPageContainer = connect(mapStateToProps, actions)(UsersPageAPIContainer)

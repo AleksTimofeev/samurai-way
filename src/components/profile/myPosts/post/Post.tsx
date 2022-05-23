@@ -2,7 +2,7 @@ import React from 'react';
 import avatar from '../../../../assets/image/avatar.png'
 import styles from './Post.module.css'
 import like from '../../../../assets/image/icons/like.png'
-import {PostType} from "../../../redux/profileReducer";
+import {PostType} from "../../../../redux/profileReducer";
 
 type PropsType = {
   postData: PostType

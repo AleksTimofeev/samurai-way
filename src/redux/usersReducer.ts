@@ -1,4 +1,6 @@
-import {v1} from "uuid";
+import {Dispatch} from "redux";
+import {usersApi} from "../api/api";
+import {AppStateType} from "./store";
 
 export type UserLocationType = {
   city: string
@@ -81,5 +83,51 @@ export const getUsers = (users: Array<UserType>) => ({type: GET_USERS, users} as
 export const changeCurrentPage = (pageNumber: number) => ({type: CHANGE_CURRENT_PAGE, pageNumber} as const)
 export const setNumberPages = (numberPages: number) => ({type: SET_NUMBER_PAGES, numberPages} as const)
 export const isFetchingUsers = () => ({type: IS_FETCHING_USERS} as const)
+
+export const getUsersTC = (currentPage: number) => (dispatch: Dispatch) => {
+  dispatch(isFetchingUsers())
+  usersApi.getUsers(currentPage)
+    .then(data => {
+      dispatch(getUsers(data.items))
+      dispatch(setNumberPages(Math.round(data.totalCount / 10)))
+    })
+
+}
+export const followTC = (userId: number, currentPage: number) => (dispatch: Dispatch) => {
+  dispatch(follow(userId))
+  usersApi.follow(userId)
+    .then(res => {
+      if(res.data.resultCode === 0){
+        usersApi.getUsers(currentPage)
+          .then(users => {
+            dispatch(followUserOk(userId))
+            dispatch(getUsers(users.items))
+          })
+      }
+    })
+}
+export const unfollowTC = (userId: number, currentPage: number) => (dispatch: Dispatch) => {
+  dispatch(unfollow(userId))
+  usersApi.unfollow(userId)
+    .then(res => {
+      if(res.data.resultCode === 0){
+        usersApi.getUsers(currentPage)
+          .then(users => {
+            dispatch(followUserOk(userId))
+            dispatch(getUsers(users.items))
+          })
+      }
+    })
+}
+export const changeCurrentPageTC = (currentPage: number) => (dispatch: Dispatch) => {
+  dispatch(changeCurrentPage(currentPage))
+  dispatch(isFetchingUsers())
+  usersApi.getUsers(currentPage)
+    .then(users => {
+
+      dispatch(getUsers(users.items))
+    })
+}
+
 
 export default usersReducer

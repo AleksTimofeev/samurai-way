@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 import HomePage from "./HomePage";
-import {AppStateType} from "../redux/store";
-import {addOne, addThree, addTwo, changeText, HomePageType} from "../redux/homePageReducer";
+import {AppStateType} from "../../redux/store";
+import {addOne, addThree, addTwo, changeText, HomePageType} from "../../redux/homePageReducer";
 import {Dispatch} from "redux";
 
 type MapDispatchPropsType = {
