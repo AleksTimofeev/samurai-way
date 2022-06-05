@@ -4,3 +4,6 @@
   flex-direction: column;
   background: #c4ff89;
 }
+.editableSpan {
+  cursor: pointer;
+}

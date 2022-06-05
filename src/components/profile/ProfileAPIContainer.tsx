@@ -2,7 +2,7 @@ import React from "react";
 import Profile from "./Profile";
 import {ProfilePropsType} from "./ProfileContainer";
 
-type PropsType = ProfilePropsType & { userId: string }
+type PropsType = ProfilePropsType & { userId: number }
 
 export class ProfileAPIContainer extends React.Component<PropsType> {
 
@@ -15,7 +15,6 @@ export class ProfileAPIContainer extends React.Component<PropsType> {
   componentDidMount() {
     this.props.getProfileData(+this.props.userId)
   }
-
   render() {
     return <Profile {...this.props} />
   }

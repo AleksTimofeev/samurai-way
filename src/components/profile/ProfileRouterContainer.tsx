@@ -1,17 +1,20 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {ProfileAPIContainer} from "./ProfileAPIContainer";
 import {ProfilePropsType} from "./ProfileContainer";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {AppStateType} from "../../redux/store";
 
 const ProfileRouterContainer: React.FC<ProfilePropsType> = (props) => {
 
-  const userId = useSelector((state:AppStateType):string | null => state.auth.id)
-  const {id} = useParams()
+  const userId = useSelector((state: AppStateType): number => state.auth.id)
+  const id = Number(useParams().id)
+
 
   return (
-    <ProfileAPIContainer {...props} userId={id || userId || '123'} />
+    <>
+      {userId && <ProfileAPIContainer {...props} userId={id || userId}/>}
+    </>
   );
 };
 

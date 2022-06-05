@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {Dispatch} from "redux";
-import {profileApi} from "../api/api";
+import {profileApi, ProfileDataType} from "../api/api";
 
 export const SET_PROFILE_DATA = 'SET_PROFILE_DATA'
 export const ADD_POST = 'ADD_POST'
@@ -8,43 +8,23 @@ export const INPUT_POST_MESSAGE_CHANGE = 'INPUT_POST_MESSAGE_CHANGE'
 export const INCREMENT_LIKES_COUNT = 'INCREMENT_LIKES_COUNT'
 export const DECREMENT_LIKES_COUNT = 'DECREMENT_LIKES_COUNT'
 export const LOADING_PROFILE_DATA = 'LOADING_PROFILE_DATA'
+export const SET_USER_STATUS = 'SET_USER_STATUS'
 
 export type PostType = {
   id: string
   message: string
   likesCount: number
 }
-export type ContactsType = {
-  facebook: string | null
-  website: string | null
-  vk: string | null
-  twitter: string | null
-  instagram: string | null
-  youtube: string | null
-  github: string | null
-  mainLink: string | null
-}
-export type PhotosType = {
-  small: string | null
-  large: string | null
-}
-export type ProfileDataType = {
-  aboutMe: string
-  contacts: ContactsType
-  lookingForAJob: boolean
-  lookingForAJobDescription: string | null
-  fullName: string
-  userId: number
-  photos: PhotosType
-}
+
 export type ProfilePageType = {
   inputPostMessage: string
   posts: Array<PostType>
   profileData: ProfileDataType
   loadingProfileData: boolean
+  userStatus: string
 }
 
-const initialState = {
+const initialState: ProfilePageType = {
   inputPostMessage: '',
   posts: [],
   profileData: {
@@ -68,16 +48,18 @@ const initialState = {
       large: null
     }
   },
+  userStatus: '',
   loadingProfileData: false
 }
 
 
 export type ActionsType = ReturnType<typeof setProfileData> | ReturnType<typeof addPostActionCreator> |
   ReturnType<typeof inputPostMessageActionCreator> | ReturnType<typeof incrementLikesCountActionCreator> |
-  ReturnType<typeof decrementLikesCountActionCreator> | ReturnType<typeof loadingProfileData>
+  ReturnType<typeof decrementLikesCountActionCreator> | ReturnType<typeof loadingProfileData> |
+  ReturnType<typeof setUserStatus>
 
 
-const profileReducer = (state: ProfilePageType = initialState, action: ActionsType): ProfilePageType => {
+const profileReducer = (state = initialState, action: ActionsType): ProfilePageType => {
 
   switch (action.type) {
     case SET_PROFILE_DATA: return {...state,
@@ -86,6 +68,9 @@ const profileReducer = (state: ProfilePageType = initialState, action: ActionsTy
     }
     case LOADING_PROFILE_DATA: return {...state,
       loadingProfileData: true
+    }
+    case SET_USER_STATUS: return {...state,
+      userStatus: action.status
     }
     case ADD_POST:
       const message: string = state.inputPostMessage
@@ -112,7 +97,12 @@ const profileReducer = (state: ProfilePageType = initialState, action: ActionsTy
   }
 }
 
-export const setProfileData = (profileData: ProfileDataType) => ({type: SET_PROFILE_DATA, profileData} as const)
+export const setProfileData = (profileData: ProfileDataType) => {
+  return {type: SET_PROFILE_DATA, profileData} as const
+}
+export const setUserStatus = (status: string) => {
+  return {type: SET_USER_STATUS, status} as const
+}
 export const addPostActionCreator = () => ({type: ADD_POST} as const)
 export const inputPostMessageActionCreator = (value: string) => ({type: INPUT_POST_MESSAGE_CHANGE, value} as const)
 export const incrementLikesCountActionCreator = (idPost: string) => ({type: INCREMENT_LIKES_COUNT, idPost} as const)
@@ -122,6 +112,15 @@ const loadingProfileData = () => ({type: LOADING_PROFILE_DATA} as const)
 export const getProfileData = (userId: number) => (dispatch: Dispatch) => {
   dispatch(loadingProfileData())
   profileApi.getProfileData(userId).then(data => dispatch(setProfileData(data)))
+  profileApi.getUserStatus(userId).then(res => dispatch(setUserStatus(res.data)))
+}
+
+export const updateStatus = (status: string) => (dispatch: Dispatch) => {
+  profileApi.updateStatus(status).then(res => {
+    if(res.resultCode === 0){
+      dispatch(setUserStatus(status))
+    }
+  })
 }
 
 export default profileReducer

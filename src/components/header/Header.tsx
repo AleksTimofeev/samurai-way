@@ -1,16 +1,16 @@
 import React, {useEffect} from 'react';
 import styles from './Header.module.css'
 import logo from '../../assets/image/logo.png'
-import {useDispatch, useSelector} from "react-redux";
-import {authMe, UserDataType} from "../../redux/authReducer";
-import {AppStateType} from "../../redux/store";
+import {useSelector} from "react-redux";
+import {authMe, AuthStateType, UserDataType} from "../../redux/authReducer";
+import {AppStateType, useAppDispatch} from "../../redux/store";
 import {useNavigate} from "react-router-dom";
 
 type PropsType = {}
 
 const Header: React.FC<PropsType> = () => {
-  const dispatch = useDispatch()
-  const userData = useSelector((state: AppStateType): UserDataType => state.auth)
+  const dispatch = useAppDispatch()
+  const userData = useSelector((state: AppStateType): AuthStateType => state.auth)
   const navigate = useNavigate()
 
   const handleClickLogin = () => {
@@ -18,7 +18,7 @@ const Header: React.FC<PropsType> = () => {
   }
 
   useEffect(() => {
-    authMe()(dispatch)
+    dispatch(authMe())
   }, [])
 
   return (
